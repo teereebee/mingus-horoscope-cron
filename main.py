@@ -3,8 +3,16 @@ import requests
 
 app = Flask(__name__)
 
-def simple_chien(text):
-    return "🐕 Ton humain est occupé aujourd'hui ! Profite pour dormir et manger ! 🛋️🥩"
+def chien_horoscope(humain):
+    humain = humain.lower()
+    if "voyages" in humain:
+        return "🚗 ROAD TRIP ! Gamelle + cousins obligatoires ! 🐾"
+    elif "enfants" in humain:
+        return "👶 Balle infinie avec les petiots ! 🎾"
+    elif "travail" in humain:
+        return "💼 ROI DU CANAPÉ toute la journée ! 🛋️"
+    else:
+        return "⭐ Dormir, manger, jouer = parfait ! 🐕"
 
 @app.route("/")
 def home():
@@ -15,11 +23,12 @@ def test_horoscope():
     try:
         r = requests.get("https://kayoo123.github.io/astroo-api/jour.json")
         humain = r.json().get("cancer", "OK")
-        chien = simple_chien(humain)
-        return f"<h1>🐕 {chien}</h1><p>Humain: {humain}</p>"
-    except:
-        return "✅ Système OK !"
-
-@app.route("/send-horoscope")
-def send_horoscope():
-    return "✅ Prêt pour 7h ! (test OK)"
+        chien = chien_horoscope(humain)
+        return f"""
+        <h2>🐕 Horoscope HUMAIN</h2>
+        <p>{humain}</p>
+        <h2>🐶 Horoscope MINGUS</h2>
+        <p><strong>{chien}</strong></p>
+        """
+    except Exception as e:
+        return f"Erreur : {str(e)}"
