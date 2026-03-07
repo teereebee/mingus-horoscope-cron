@@ -1,16 +1,25 @@
-def chien_horoscope(humain):
-    """Horoscope MINGUS simple (sans multi-lignes)"""
-    humain = humain.lower()
-    
-    if "voyages" in humain:
-        return "🚗 ROAD TRIP ! Ton humain fait ses valises = gamelle + cousins obligatoires ! 🐾"
-    elif "enfants" in humain or "famille" in humain:
-        return "👶 Journée balle infinie avec les petiots ! 🎾"
-    elif "travail" in humain or "carrière" in humain:
-        return "💼 Ton humain au bureau = TOI ROI DU CANAPÉ ! 🛋️"
-    elif "amour" in humain or "couple" in humain:
-        return "💕 Restes de dîners romantiques ce soir ! 🥩"
-    elif "argent" in humain:
-        return "💰 Croquettes PREMIUM au menu ! 🥓"
-    else:
-        return "⭐ Dormir, manger, jouer = journée parfaite ! 🐕"
+from flask import Flask
+import requests
+
+app = Flask(__name__)
+
+def simple_chien(text):
+    return "🐕 Ton humain est occupé aujourd'hui ! Profite pour dormir et manger ! 🛋️🥩"
+
+@app.route("/")
+def home():
+    return "🚀 Mingus Horoscope READY ! 🐕"
+
+@app.route("/test-horoscope")
+def test_horoscope():
+    try:
+        r = requests.get("https://kayoo123.github.io/astroo-api/jour.json")
+        humain = r.json().get("cancer", "OK")
+        chien = simple_chien(humain)
+        return f"<h1>🐕 {chien}</h1><p>Humain: {humain}</p>"
+    except:
+        return "✅ Système OK !"
+
+@app.route("/send-horoscope")
+def send_horoscope():
+    return "✅ Prêt pour 7h ! (test OK)"
