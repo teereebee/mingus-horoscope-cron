@@ -6,5 +6,6 @@ app = Flask(__name__)
 def hello():
     return "🚀 Mingus Horoscope Cron READY ! 🐕"
 
-# SUPPRIME le if __name__ == '__main__' 
-# Render utilise gunicorn directement
+@app.route('/health')
+def health():
+    return "OK"
