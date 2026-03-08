@@ -10,18 +10,25 @@ def home():
 @app.route("/test-horoscope")
 def test_horoscope():
     chien = """
-🐕 HOROSCOPE MINGUS - CANCER CANIN
+🐕 HOROSCOPE MINGUS - CANCER CANIN (littéraire + tes rubriques)
 
-🦴 SANTÉ : Ton poil brille ! Energie max mais attention flatulences suspectes → bois moins vite !
+🦴 SANTÉ : Ton poil resplendit d'un éclat lunaire, énergie cosmique à son zénith. 
+Mais vigilance : flatulences suspectes signalées - bois ta gamelle avec la dignité d'un seigneur.
 
-🐾 MON MAÎTRE : Distrait niveau champion du monde. Parfait pour squatter le canapé ninja !
+🐾 MON MAÎTRE : Distraction olympique cette semaine. L'occasion rêvée pour toi, noble squatteur, 
+de revendiquer le trône du canapé en mode furtif absolu.
 
-💪 EFFORT : Motivation 200% ! Courir, aboyer, vivre ! Evite la tondeuse du voisin (mauvais karma).
+💪 EFFORT : Ardeur guerrière ! L'envie de courir, d'aboyer, de conquérir le monde canin t'anime. 
+Sage conseil astral : la tondeuse voisine demeure un ennemi karmique à éviter.
 
-🍖 GOURMANDISE : SAUCISSE VOLÉE confirmée ! Regarde ton humain 3min yeux tristes → il craque.
+🍖 GOURMANDISE : La saucisse cosmique t'appelle. Technique infaillible : trois minutes d'yeux 
+suppliants et ton humain capitule, le steak t'est acquis.
 
-🐶 ASTUCE : "Ne jamais sous-estimer le pouvoir du regard triste" → 90% réussite !
+🐶 ASTUCE CANINE : "Le regard triste, arme fatale du chenil, ouvre 90% des portes 
+- gamelles, balades, câlins. Un classique immuable de l'astrologie canine."
 
-✨ Mingus Astrologie - Tous les matins à 7h
+✨ Mingus Astrologie - Chaque matin à 7h, pour l'âme de ton chien
 """
-    return f"<pre style='font-family: Arial; max-width: 600px; margin: auto; white-space: pre-wrap;'>{chien}</pre>"
+    return f"""
+<div style="font-family: Georgia, serif; max-width: 600px; margin: 20px auto; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    <h1 style="color:
