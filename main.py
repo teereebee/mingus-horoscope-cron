@@ -69,7 +69,7 @@ Saucisse cosmique t'appelle. 3min yeux suppliants = steak gagné !
         # ENVOI EMAIL - thierry@barbedette.com expéditeur ET destinataire
         sg = SendGridAPIClient(api_key=api_key)
         message = Mail(
-            from_email='thierry@barbedette.com',
+            from_email='test@sendgrid.net',
             to_emails='thierry@barbedette.com',
             subject='🐕 Horoscope Mingus TEST 08/03',
             html_content=horoscope
