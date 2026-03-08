@@ -44,41 +44,39 @@ def send_horoscope():
         if not api_key.startswith('SG.'):
             return f"❌ Clé invalide : {api_key[:10]}..."
         
-        # Horoscope du jour (TEST Cancer)
+        # Horoscope Cancer TEST
         horoscope = """
 🐕 HOROSCOPE MINGUS - CANCER CANIN - 08/03
 
 🦴 SANTÉ  
-Ton poil resplendît d'un éclat lunaire. Énergie cosmique à son zénith, 
-mais vigilance : flatulences suspectes signalées.
+Ton poil resplendît d'un éclat lunaire. Énergie cosmique à son zénith ! 
 
 🐾 MON MAÎTRE  
-Distraction olympique cette semaine. L'occasion rêvée pour squatter 
-le canapé en mode furtif absolu.
+Distraction olympique cette semaine. Squatte le canapé en mode furtif !
 
 💪 EFFORT  
-Ardeur guerrière ! L'envie de courir, d'aboyer, de conquérir le monde canin.
+Ardeur guerrière ! Courir, aboyer, conquérir le monde canin t'anime.
 
 🍖 GOURMANDISE  
-La saucisse cosmique t'appelle. Technique : 3min yeux suppliants = steak gagné !
+Saucisse cosmique t'appelle. 3min yeux suppliants = steak gagné !
 
 🐶 ASTUCE CANINE  
-"Le regard triste, arme fatale du chenil, ouvre 90% des portes"
+"Le regard triste ouvre 90% des gamelles - arme fatale !"
 
 ✨ Mingus Astrologie - Chaque matin à 7h
 """
         
-        # Envoi email
+        # ENVOI EMAIL - thierry@barbedette.com expéditeur ET destinataire
         sg = SendGridAPIClient(api_key=api_key)
         message = Mail(
-            from_email='noreply@mingus.fr',
-            to_emails='TON_EMAIL@gmail.com',  # ← CHANGE ICI TON EMAIL !
-            subject='🐕 Horoscope Mingus 08/03',
+            from_email='thierry@barbedette.com',
+            to_emails='thierry@barbedette.com',
+            subject='🐕 Horoscope Mingus TEST 08/03',
             html_content=horoscope
         )
         
         sg.send(message)
-        return "✅ EMAIL HOROSCOPE ENVOYÉ ! 🐕💌"
+        return "✅ EMAIL HOROSCOPE ENVOYÉ ! 🐕💌 Vérifie thierry@barbedette.com"
         
     except Exception as e:
         return f"❌ Erreur : {str(e)}"
