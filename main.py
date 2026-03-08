@@ -33,3 +33,41 @@ et ton humain capitule, le steak t'est acquis.
 
 ✨ Mingus Astrologie - Chaque matin à 7h, pour l'âme de ton chien
 """
+@app.route("/send-horoscope")
+def send_horoscope():
+    import os
+    from sendgrid import SendGridAPIClient
+    from sendgrid.helpers.mail import Mail
+    
+    # TES rubriques horoscope
+    horoscope = """
+🐕 HOROSCOPE MINGUS - CANCER CANIN
+
+🦴 SANTÉ  
+Ton poil resplendît d'un éclat lunaire. Énergie cosmique à son zénith. 
+
+🐾 MON MAÎTRE  
+Distraction olympique. Parfait pour squatter le canapé ninja !
+
+💪 EFFORT  
+Motivation 200% ! Courir, aboyer, vivre à fond !
+
+🍖 GOURMANDISE  
+Saucisse cosmique t'appelle. Yeux tristes 3min = steak gagné !
+
+🐶 ASTUCE  
+"Le regard triste ouvre 90% des gamelles"
+
+✨ Mingus Astrologie - Chaque matin à 7h
+"""
+    
+    sg = SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+    message = Mail(
+        from_email='noreply@mingus.fr',
+        to_emails='TON_EMAIL@gmail.com',  # ← METS TON EMAIL ICI
+        subject='🐕 Horoscope Mingus 08/03',
+        html_content=horoscope
+    )
+    
+    sg.send(message)
+    return "✅ EMAIL ENVOYÉ ! 🐕💌"
