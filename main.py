@@ -17,7 +17,7 @@ def send_horoscope():
         
         message = Mail(
             from_email="noreply@mingus.fr",
-            to_emails="test@mingus.fr",  # Ton email
+            to_emails="test@mingus.fr",
             subject="🐕 Horoscope Cancer du jour",
             html_content="""
             <h1>🌙 Horoscope Cancer</h1>
