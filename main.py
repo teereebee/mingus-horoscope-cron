@@ -9,24 +9,24 @@ def home():
 
 @app.route("/send-horoscope")
 def send_horoscope():
-    api_key = os.environ.get("SENDGRID_API_KEY")
-    
-    # Test 1: Clé présente
-    if not api_key:
-        return "❌ Clé absente"
-    
-    # Test 2: Format correct
-    if not api_key.startswith("SG."):
-        return f"❌ Format invalide: {api_key[:10]}"
-    
-    # Test 3: SendGrid accepte la clé (SANS envoyer)
     try:
         from sendgrid import SendGridAPIClient
-        sg = SendGridAPIClient(api_key)
-        return f"✅ SendGrid OK ! Clé: {api_key[:15]}... Prêt pour email !"
+        from sendgrid.helpers.mail import Mail
+        
+        sg = SendGridAPIClient(os.environ["SENDGRID_API_KEY"])
+        
+        message = Mail(
+            from_email="test@example.com",  # Email test ultra-simple
+            to_emails="thierry@barbedette.com",
+            subject="🐕 Test SendGrid FINAL",
+            html_content="<h1>✅ SendGrid marche !</h1><p>Horoscope Cancer bientôt !</p>"
+        )
+        
+        response = sg.send(message)
+        return f"✅ EMAIL ENVOYÉ ! Status: {response.status_code} 🐕💌"
+        
     except Exception as e:
-        return f"❌ SendGrid refuse: {str(e)}"
-
+        return f"❌ Erreur précise : {str(e)}"
 
 
 if __name__ == "__main__":
