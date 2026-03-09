@@ -11,27 +11,21 @@ def home():
 def send_horoscope():
     try:
         from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
-        
         sg = SendGridAPIClient(os.environ["SENDGRID_API_KEY"])
         
+        # Message ULTRA minimal
         message = Mail(
-            from_email="authenticated@sendgrid.net",  # ← SendGrid sandbox officiel
-            to_emails="thierry@barbedette.com",
-            subject="🐕 Mingus Horoscope - Cancer Test",
-            html_content="""
-            <h1>🐕 CANCER CANIN - Mingus Horoscope</h1>
-            <h3>🦴 SANTÉ :</h3><p>Éclat lunaire cosmique !</p>
-            <h3>🍖 GOURMANDISE :</h3><p>Saucisse cosmique t'appelle !</p>
-            <p><em>✨ Test réussi ! Mingus Astrologie</em></p>
-            """
+            from_email="thierry@barbedette.com",
+            to_emails=["thierry@barbedette.com"],
+            subject="Test",
+            plain_text_content="Si tu reçois ce mail, SendGrid marche !"
         )
         
         response = sg.send(message)
-        return f"✅ HOROSCOPE ENVOYÉ SUCCESS ! Status: {response.status_code} 🐕💌"
+        return f"SUCCESS ! Status: {response.status_code}"
         
     except Exception as e:
-        return f"❌ ERREUR DÉTAILLÉE : {str(e)}"
+        return f"ERREUR: {type(e).__name__}: {str(e)}"
 
 
 
