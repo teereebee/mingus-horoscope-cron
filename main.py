@@ -1,53 +1,33 @@
 from flask import Flask
 import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def home():
-    return "🐕 Mingus Horoscope OK !"
+    return "🐕 Mingus Horoscope OK"
 
-@app.route('/send-horoscope')
-@app.route('/send-horoscope')
+@app.route("/send-horoscope")
 def send_horoscope():
+    api_key = os.environ.get("SENDGRID_API_KEY")
+    if not api_key:
+        return "❌ SENDGRID_API_KEY manquante dans Render"
+
     try:
-        from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
-        import os
-        
-        api_key = os.environ.get('SENDGRID_API_KEY')
-        sg = SendGridAPIClient(api_key=api_key)
-        
-        horoscope = """
-🐕 HOROSCOPE MINGUS - CANCER CANIN - 08/03
-
-🦴 SANTÉ  
-Ton poil resplendît d'un éclat lunaire. Énergie cosmique à son zénith !
-
-🐾 MON MAÎTRE  
-Distraction olympique cette semaine. Squatte le canapé ninja style !
-
-💪 EFFORT  
-Ardeur guerrière ! Courir, aboyer, conquérir le monde canin !
-
-🍖 GOURMANDISE  
-Saucisse cosmique t'appelle. Yeux tristes 3min = steak gagné !
-
-🐶 ASTUCE  
-"Regard triste = 90% des gamelles ouvertes !"
-
-✨ Mingus Astrologie - Chaque matin 7h
-"""
-        
+        sg = SendGridAPIClient(api_key)
         message = Mail(
-            from_email='test@sendgrid.net',
-            to_emails='thierry@barbedette.com',
-            subject='🐕 Horoscope Mingus TEST',
-            html_content=horoscope
+            from_email="test@sendgrid.net",      # expéditeur simple pour le test
+            to_emails="thierry@barbedette.com",  # destinataire = toi
+            subject="Test SendGrid depuis Render",
+            html_content="<p>Si tu vois ce mail, SendGrid fonctionne ✅</p>",
         )
-        
-        sg.send(message)
-        return "✅ EMAIL HOROSCOPE CANCER ENVOYÉ ! Vérifie ta boîte mail 🐕💌"
-        
+        response = sg.send(message)
+        return f"✅ Email envoyé, status SendGrid = {response.status_code}"
     except Exception as e:
-        return f"❌ Erreur : {str(e)}"
+        return f"❌ Erreur SendGrid : {str(e)}"
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", 
