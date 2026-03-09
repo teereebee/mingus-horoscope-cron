@@ -9,29 +9,8 @@ def home():
 
 @app.route("/send-horoscope")
 def send_horoscope():
-    try:
-        from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
-        
-        sg = SendGridAPIClient(os.environ["SENDGRID_API_KEY"])
-        
-        message = Mail(
-            from_email="thierry@barbedette.com",  # ← VÉRIFIÉ SendGrid
-            to_emails="thierry@barbedette.com",
-            subject="🐕 Horoscope Mingus Cancer",
-            html_content="""
-            <h1>🐕 CANCER CANIN - Mingus Horoscope</h1>
-            <h3>🦴 SANTÉ</h3><p>Éclat lunaire cosmique !</p>
-            <h3>🍖 GOURMANDISE</h3><p>Saucisse cosmique !</p>
-            <p><em>✨ Mingus - Premier test réussi !</em></p>
-            """
-        )
-        
-        response = sg.send(message)
-        return f"✅ HOROSCOPE ENVOYÉ ! Status {response.status_code}"
-        
-    except Exception as e:
-        return f"❌ {str(e)}"
+    api_key = os
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render default = 10000
