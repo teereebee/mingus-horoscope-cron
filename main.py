@@ -9,30 +9,29 @@ def home():
 
 @app.route("/send-horoscope")
 def send_horoscope():
+    # DEBUG 1: Clé
+    api_key = os.environ.get('SENDGRID_API_KEY')
+    if not api_key:
+        return "❌ ENV SENDGRID_API_KEY VIDE"
+    if not api_key.startswith('SG.'):
+        return f"❌ CLÉ INVAILDE: {api_key[:10]}"
+    
+    # DEBUG 2: Import + Init
     try:
         from sendgrid import SendGridAPIClient
         from sendgrid.helpers.mail import Mail
-        
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        message = Mail(
-            from_email='thierry@barbedette.com',
-            to_emails='thierry@barbedette.com',
-            subject='🐕 Horoscope Cancer du jour',
-            html_content="""
-            <h1 style='color: #4a90e2;'>🌙 Horoscope Cancer</h1>
-            <p><strong>Aujourd'hui :</strong> Énergie lunaire favorable 🦀</p>
-            <ul>
-                <li>Amour : ❤️‍🔥 Connexion profonde</li>
-                <li>Travail : 💼 Intuition payante</li>
-                <li>Santé : 🌿 Équilibre parfait</li>
-            </ul>
-            """
-        )
-        response = sg.send(message)
-        return f"✅ CANCER ENVOYÉ ! Status: {response.status_code}"
+        sg = SendGridAPIClient(api_key)
+        return f"✅ SENDGRID INIT OK (clé: {api_key[:15]}...)"
     except Exception as e:
-        return f"❌ Erreur: {str(e)}"
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port, debug=False)
+        return f"❌ SENDGRID INIT: {str(e)}"
+    
+    # DEBUG 3: Email (ne passe JAMAIS ici si init OK)
+    message = Mail(
+        from_email='thierry@barbedette.com',
+        to_emails='thierry@barbedette.com',
+        subject='🐕 Cancer TEST',
+        html_content='<h1>🦀 CANCER !</h1>'
+    )
+    
+    response = sg.send(message)
+    return f"✅ {response.status_code}"
