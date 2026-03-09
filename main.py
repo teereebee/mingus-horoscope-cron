@@ -16,23 +16,22 @@ def send_horoscope():
         sg = SendGridAPIClient(os.environ["SENDGRID_API_KEY"])
         
         message = Mail(
-            from_email="noreply@sendgrid.net",  # ← OFFICIEL SendGrid
+            from_email="thierry@barbedette.com",  # ← VÉRIFIÉ SendGrid
             to_emails="thierry@barbedette.com",
-            subject="🐕 Horoscope Cancer - Mingus",
+            subject="🐕 Horoscope Mingus Cancer",
             html_content="""
-            <h1>🐕 HOROSCOPE MINGUS - CANCER CANIN</h1>
-            <h3>🦴 SANTÉ</h3><p>Éclat lunaire, énergie cosmique !</p>
-            <h3>🍖 GOURMANDISE</h3><p>Saucisse cosmique t'appelle !</p>
-            <h3>🐶 ASTUCE</h3><p>"Regard triste = 90% gamelles !"</p>
-            <p><em>✨ Mingus Astrologie - Test OK !</em></p>
+            <h1>🐕 CANCER CANIN - Mingus Horoscope</h1>
+            <h3>🦴 SANTÉ</h3><p>Éclat lunaire cosmique !</p>
+            <h3>🍖 GOURMANDISE</h3><p>Saucisse cosmique !</p>
+            <p><em>✨ Mingus - Premier test réussi !</em></p>
             """
         )
         
         response = sg.send(message)
-        return f"✅ HOROSCOPE ENVOYÉ ! Status: {response.status_code} 🐕💌"
+        return f"✅ HOROSCOPE ENVOYÉ ! Status {response.status_code}"
         
     except Exception as e:
-        return f"❌ Erreur : {str(e)}"
+        return f"❌ {str(e)}"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render default = 10000
