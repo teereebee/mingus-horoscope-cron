@@ -1,4 +1,5 @@
 from flask import Flask
+import requests
 import os
 
 app = Flask(__name__)
@@ -10,20 +11,25 @@ def home():
 @app.route("/send-horoscope")
 def send_horoscope():
     try:
-        from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
+        # Horoscope API GRATUITE (pas d'API key)
+        response = requests.get("https://api.api-ninjas.com/v1/horoscope?sign=cancer")
+        horoscope = response.json()[0]['horoscope']
         
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        # Email via ton SMTP direct (PAS SendGrid)
+        import smtplib
+        from email.mime.text import MIMEText
         
-        message = Mail(
-            from_email='thierry@barbedette.com',
-            to_emails='thierry@barbedette.com',
-            subject='🐕 Cancer du jour 🦀',
-            plain_text_content='🌙 Cancer: Énergie lunaire favorable ! Amour ❤️ Travail 💼 Santé 🌿'
-        )
+        msg = MIMEText(f"🌙 Cancer: {horoscope}\n\nMingus Horoscope")
+        msg['Subject'] = '🐕 Horoscope Cancer'
+        msg['From'] = 'thierry@barbedette.com'
+        msg['To'] = 'thierry@barbedette.com'
         
-        response = sg.send(message)
-        return f"✅ CANCER ENVOYÉ ! Status: {response.status_code}"
+        server = smtplib.SMTP('mail.barbedette.com', 587)  # Change par ton serveur
+        server.starttls()
+        server.login('thierry@barbedette.com', 'TON_MDP_EMAIL')
+        server.send_message(msg)
+        server.quit()
         
+        return "✅ CANCER ENVOYÉ ! (API + SMTP)"
     except Exception as e:
         return f"❌ {str(e)}"
