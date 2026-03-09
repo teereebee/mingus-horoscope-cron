@@ -11,21 +11,21 @@ def home():
 def send_horoscope():
     try:
         from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
+        from sendgrid.helpers.mail import Mail, FromEmail, ToEmail, ReplyTo
         
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
         
-        # Message ULTRA SIMPLE pour test
         message = Mail(
-            from_email='thierry@barbedette.com',
-            to_emails='thierry@barbedette.com',
-            subject='🐕 Cancer TEST FINAL',
-            plain_text_content='🌙 Cancer OK ! 🦀'  # TEXT SIMPLE d'abord
+            from_email=FromEmail('thierry@barbedette.com', 'Mingus'),
+            to_emails=ToEmail('thierry@barbedette.com'),
+            reply_to=ReplyTo('thierry@barbedette.com'),
+            subject='🐕 Cancer du jour 🦀',
+            plain_text_content='🌙 Cancer: Énergie lunaire favorable ! Amour ❤️ Travail 💼 Santé 🌿'
         )
         
         response = sg.send(message)
         return f"✅ CANCER ENVOYÉ ! Status: {response.status_code}"
         
     except Exception as e:
-        return f"❌ ENVOI: {str(e)}"
+        return f"❌ {str(e)}"
 
