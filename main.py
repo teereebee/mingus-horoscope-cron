@@ -9,32 +9,19 @@ def home():
 
 @app.route("/send-horoscope")
 def send_horoscope():
+    api_key = os.environ.get("SENDGRID_API_KEY")
+    
+    if not api_key:
+        return "❌ Pas de clé"
+    if not api_key.startswith("SG."):
+        return f"❌ Clé invalide: {api_key[:10]}"
+    
     try:
         from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
-        
-        sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
-        
-        message = Mail(
-            from_email="noreply@mingus.fr",
-            to_emails="test@mingus.fr",
-            subject="🐕 Horoscope Cancer du jour",
-            html_content="""
-            <h1>🌙 Horoscope Cancer</h1>
-            <p><strong>Aujourd'hui :</strong> Énergie lunaire favorable 🦀</p>
-            <p>Amour : ❤️‍🔥 Connexion profonde<br>
-            Travail : 💼 Intuition payante<br>
-            Santé : 🌿 Équilibre parfait</p>
-            <hr>
-            <small>Envoyé par Mingus Horoscope API</small>
-            """
-        )
-        
-        response = sg.send(message)
-        return f"✅ Email ENVOYÉ ! Status: {response.status_code}"
-        
+        sg = SendGridAPIClient(api_key)
+        return f"✅ SendGrid OK ! Clé: {api_key[:15]}... | Permissions OK"
     except Exception as e:
-        return f"❌ Erreur: {str(e)}"
+        return f"❌ Erreur précise: {str(e)}"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
